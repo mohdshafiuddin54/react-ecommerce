@@ -1,16 +1,18 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Toolbar from "@mui/material/Toolbar";
 import styled from "styled-components";
 import NavCategory from "./NavCategory";
 import NavCart from "./NavIcon";
 import { NavUser } from "./NavIcon";
+import categories from "../categories.json";
 
 const Div = styled.div`
   color: #fff;
-  margin-bottom: 1.8rem;
   .logo {
     font-size: 3.2rem;
     letter-spacing: 2px;
+    cursor: pointer;
   }
   font-weight: 700;
   .main-nav-bar {
@@ -25,7 +27,7 @@ const SdToolbar = styled(Toolbar)`
     min-height: 48px;
     max-height: 48px;
     display: flex;
-    // justify-content: space-around;
+    padding: 1.8rem 2.4rem;
     align-items: center;
     gap: 1.8rem;
     position: relative;
@@ -41,27 +43,30 @@ const SdToolbar = styled(Toolbar)`
   }
 `;
 function NavBar() {
+  let i = 0;
+  const navigate = useNavigate();
   return (
     <Div>
       <Toolbar style={{ backgroundColor: "#ff6b6b" }} className="main-nav-bar">
-        <span className="logo">Shopperzz</span>
+        <span className="logo" onClick={() => navigate("/")}>
+          Shopperzz
+        </span>
         <div
           className="nav-icons-container"
           style={{ display: "flex", alignItems: "center" }}
         >
-          <NavCart />
+          <NavCart onClick={() => navigate("./cart")} />
           <NavUser />
         </div>
       </Toolbar>
 
-      {/* <SdToolbar className="sd">
+      <SdToolbar className="sd">
         <div className="nav-category-container">
-          <NavCategory catId={1} />
-          <NavCategory catId={2} />
-          <NavCategory catId={3} />
-          <NavCategory catId={4} />
+          {Object.keys(categories).map((item) => (
+            <NavCategory key={i++} item={categories[item]} title={item} />
+          ))}
         </div>
-      </SdToolbar> */}
+      </SdToolbar>
     </Div>
   );
 }

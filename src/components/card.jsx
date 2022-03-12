@@ -61,7 +61,7 @@ const Div = styled.div`
 `;
 
 function Card({ product }) {
-  const { setCart, setActiveProduct } = useContext(Context);
+  const { cart, setCart, setActiveProduct } = useContext(Context);
   const navigate = useNavigate();
   const { name, price, image } = product;
   return (
@@ -70,7 +70,7 @@ function Card({ product }) {
         if (e.target.classList.contains("ignore")) return;
         console.log("inner text", e.target.innerText);
         setActiveProduct(product);
-        navigate("/product");
+        navigate(`/product/${product.id_product}`);
       }}
     >
       <div className="product">
@@ -82,7 +82,8 @@ function Card({ product }) {
               variant="contained"
               className="ignore"
               onClick={() => {
-                setCart((val) => [...val, product]);
+                if (!cart.includes(product))
+                  setCart((val) => [...val, { ...product, ["quantity"]: 1 }]);
               }}
             >
               Add To Cart

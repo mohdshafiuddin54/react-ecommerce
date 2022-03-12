@@ -13,13 +13,14 @@ const SdBadge = styled(Badge)`
     font-size: 1rem;
   }
 `;
-function NavCart() {
+function NavCart({ onClick }) {
   const { cart } = useContext(Context);
   return (
     <IconButton
       size="large"
       aria-label="show 17 new notifications"
       color="inherit"
+      onClick={onClick}
     >
       <SdBadge badgeContent={`${cart.length}`}>
         <ShoppingCart sx={{ width: "32px", height: "32px", color: "#fff" }} />

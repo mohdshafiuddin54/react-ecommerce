@@ -5,9 +5,9 @@ import config from "./config.json";
 import NavBar from "./components/navbar";
 import styled from "styled-components";
 import Context from "./context";
-import ProductPage from "./pages/ProductPage";
+import ProductDetail from "./pages/ProductDetail";
 import ProductList from "./pages/ProductList";
-
+import CartPage from "./pages/CartPage";
 const Div = styled.div`
   // margin-bottom: 4.8rem;
 `;
@@ -17,20 +17,36 @@ function App() {
   const [cart, setCart] = useState([]);
   const [activeProduct, setActiveProduct] = useState(null);
   const [paginationValue, setPaginationValue] = useState(12);
+
+  async function fetchData(url) {
+    let tempData = await fetch(url);
+    tempData = await tempData.json();
+    setPageNum(1);
+    setData(tempData.result.products);
+  }
   useEffect(() => {
-    const inner = async () => {
-      let tempData = await fetch(config.api);
-      tempData = await tempData.json();
-      setData(tempData.result.products);
-    };
-    inner();
+    fetchData(config.api);
   }, []);
   const paginatedData = data
     ? data.slice(pageNum * 12 - 12, pageNum * 12)
     : null;
 
-  // console.log({ cart });
   const paginationLength = data.length > 0 && data.length / 12;
+
+  function findAndSetActiveProduct(id) {
+    if (data.length == 0) {
+      console.log("calling fetch");
+      fetchData(config.api);
+    }
+    console.log("data len", data.length);
+    console.log({ id });
+    console.log({ data });
+    const res = data.find((item) => item.id_product == id);
+    console.log({ res });
+    setActiveProduct(res);
+  }
+
+  // findAndSetActiveProduct(88638);
   return (
     <Div>
       <Context.Provider
@@ -42,18 +58,19 @@ function App() {
           paginatedData,
           cart,
           setCart,
+          fetchData,
           activeProduct,
           setActiveProduct,
+          findAndSetActiveProduct,
         }}
       >
         <NavBar />
         <Routes>
           <Route path="/" element={<ProductList />} />
-          <Route path="/product" element={<ProductPage />} />
-          {/* <Route path="/cart" element={<Cart />} /> */}
+          <Route path="/product/:id" element={<ProductDetail />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/*" element={<ProductList />} />
         </Routes>
-        {/* {data.length > 0 && <Pagination />} */}
-        {/* <ProductPage /> */}
       </Context.Provider>
     </Div>
   );
