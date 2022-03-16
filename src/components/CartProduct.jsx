@@ -2,13 +2,14 @@ import React, { useContext, useState } from "react";
 import Context from "../context";
 import styled from "styled-components";
 import Counter from "./Counter";
+import Button from "@mui/material/Button";
 
 const Div = styled.div`
   display: flex;
   gap: 2.8rem;
   color: #212529;
   padding: 1.2rem 2.4rem;
-  background: #fae7e7;
+  background: #dbe4ff;
   .cart-price {
     display: flex;
     flex-direction: column;
@@ -28,35 +29,32 @@ const Div = styled.div`
   }
   .home-btn,
   .remove-btn {
-    font-family: "Fira Code", "monospace";
-    border: none;
-    padding: 1.2rem 2.4rem;
-    font-size: 2.4rem;
-    font-weight: 700;
-    background: #ff6b6b;
+    font-family: "Roboto", "Sans-Serif";
+    background: #4263eb;
     color: #fff;
     cursor: pointer;
+    font-size: 1.8rem;
+    :hover {
+      background: #5c7cfa;
+    }
   }
   .remove-btn-container {
     display: flex;
     align-items: center;
   }
 `;
-function CartProduct({ product, calculateAndReturnSum }) {
-  const { setCart } = useContext(Context);
+function CartProduct({ product, calculateAndReturnSum, setSnack }) {
+  const { cart, setCart } = useContext(Context);
   const [quantity, setQuantity] = useState(
     product.quantity == 0 ? 1 : product.quantity
   );
-  console.log(product);
   function setAndUpdateQuantity(action) {
-    if (action == "add") {
-      product["quantity"] = product["quantity"] + 1;
-      setQuantity((val) => val + 1);
-    } else {
-      product["quantity"] = product["quantity"] - 1;
-      setQuantity((val) => val - 1);
-    }
-    calculateAndReturnSum(true);
+    const newcart = cart.map((item) =>
+      item.id_product == product.id_product
+        ? { ...item, ["quantity"]: item["quantity"] + 1 }
+        : item
+    );
+    setCart(newcart);
   }
   return (
     <Div>
@@ -68,21 +66,23 @@ function CartProduct({ product, calculateAndReturnSum }) {
         <span className="cart-counter">
           Quantity:
           <Counter
-            value={quantity}
+            value={product.quantity}
             setAndUpdateQuantity={setAndUpdateQuantity}
           />
         </span>
-        <span>Amount:{product.price * quantity}</span>
+        <span>Amount:{product.price * product.quantity}</span>
       </div>
       <div className="remove-btn-container">
-        <button
+        <Button
+          size="large"
           className="remove-btn"
-          onClick={() =>
-            setCart((val) => val.filter((item) => item != product))
-          }
+          onClick={() => {
+            setSnack(true);
+            setCart((val) => val.filter((item) => item != product));
+          }}
         >
           Remove
-        </button>
+        </Button>
       </div>
     </Div>
   );

@@ -9,18 +9,20 @@ const SdPagination = styled(Pagination)`
     gap: 1.2rem;
   }
   li > button:hover {
-    background: #ffe3e3;
+    background: #4263eb;
+    color: #fff;
   }
   li > button {
-    background: #ffe3e3;
+    background: #bac8ff;
     font-size: 1.6rem;
     font-weight: 700;
     font-family: "Fira Code", "monospace";
   }
   li > button.Mui-selected {
-    background: #ff8787;
+    background: #5c7cfa;
+    color: #fff;
     :hover {
-      background: #ff8787;
+      background: #4263eb;
     }
   }
   .MuiPaginationItem-previousNext svg {

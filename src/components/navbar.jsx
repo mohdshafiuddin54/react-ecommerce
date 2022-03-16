@@ -13,8 +13,9 @@ const Div = styled.div`
     font-size: 3.2rem;
     letter-spacing: 2px;
     cursor: pointer;
+    font-family: "Roboto", "Sans-Serif";
   }
-  font-weight: 700;
+  font-weight: 300;
   .main-nav-bar {
     display: flex;
     justify-content: space-between;
@@ -23,7 +24,7 @@ const Div = styled.div`
 
 const SdToolbar = styled(Toolbar)`
   && {
-    background-color: #ffc9c9;
+    background-color: #bac8ff;
     min-height: 48px;
     max-height: 48px;
     display: flex;
@@ -47,9 +48,9 @@ function NavBar() {
   const navigate = useNavigate();
   return (
     <Div>
-      <Toolbar style={{ backgroundColor: "#ff6b6b" }} className="main-nav-bar">
+      <Toolbar style={{ backgroundColor: "#4263eb" }} className="main-nav-bar">
         <span className="logo" onClick={() => navigate("/")}>
-          Shopperzz
+          SHOPPERZ
         </span>
         <div
           className="nav-icons-container"

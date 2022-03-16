@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import Context from "../context";
 
@@ -15,7 +16,7 @@ const Div = styled.div`
     gap: 0.8rem;
     cursor: pointer;
     align-items: center;
-    background: #ff6b6b;
+    background: #364fc7;
     border: none;
   }
   :hover {
@@ -33,7 +34,7 @@ const Div = styled.div`
     justify-content: center;
     button {
       border-radius: 4px;
-      font-family: "Fira Code", "monospace";
+      font-family: "Roboto", "Sans-Serif";
       color: #fff;
       font-weight: 700;
     }
@@ -44,19 +45,19 @@ const Div = styled.div`
     align-items: start;
     position: absolute;
     width: ${(props) => (props.topWidth ? `${props.topWidth}px` : "12rem")};
-    background-color: #ffc9c9;
+    background-color: #364fc7;
     button {
       padding: 0.4rem 1.2rem;
-      background: #ff6b6b;
+      background: #364fc7;
       color: #fff;
       width: 100%;
       border: none;
       font-size: 1.6rem;
       font-weight: 700;
-      font-family: "Fira Code", "monospace";
       cursor: pointer;
+      font-family: "Roboto", "Sans-Serif";
       :hover {
-        background: #ffa8a8;
+        background: #91a7ff;
       }
       border-bottom: 0.1px solid #fff;
       :last-child {
@@ -74,6 +75,7 @@ const Div = styled.div`
   }
 `;
 function NavCategory({ title, item }) {
+  const navigate = useNavigate();
   const [topWidth, setTopWidth] = useState(null);
   const ref = useRef();
   useEffect(() => setTopWidth(ref.current.offsetWidth), []);
@@ -89,7 +91,13 @@ function NavCategory({ title, item }) {
       <div className="wrapper">
         <section>
           {Object.keys(item).map((elem) => (
-            <button key={i++} onClick={() => fetchData(item[elem])}>
+            <button
+              key={i++}
+              onClick={() => {
+                fetchData(item[elem]);
+                navigate("/shop");
+              }}
+            >
               {elem}
             </button>
           ))}

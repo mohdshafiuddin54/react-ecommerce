@@ -5,9 +5,11 @@ import config from "./config.json";
 import NavBar from "./components/navbar";
 import styled from "styled-components";
 import Context from "./context";
-import ProductDetail from "./pages/ProductDetail";
 import ProductList from "./pages/ProductList";
 import CartPage from "./pages/CartPage";
+import Detail from "./components/detail";
+import Land from "./pages/Land";
+
 const Div = styled.div`
   // margin-bottom: 4.8rem;
 `;
@@ -66,9 +68,11 @@ function App() {
       >
         <NavBar />
         <Routes>
-          <Route path="/" element={<ProductList />} />
-          <Route path="/product/:id" element={<ProductDetail />} />
+          <Route path="/" element={<Land />} />
+          <Route path="/shop" element={<ProductList />} />
+          <Route path="/product2/:id" element={<Detail />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/test" element={<Detail />} />
           <Route path="/*" element={<ProductList />} />
         </Routes>
       </Context.Provider>
