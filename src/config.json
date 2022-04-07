@@ -1,3 +1,5 @@
 {
-  "api": "https://pim.wforwoman.com/pim/pimresponse.php/?service=category&store=1&url_key=top-wear-kurtas&page=1&count=250&sort_by=&sort_dir=desc&filter="
+  "api": "https://pim.wforwoman.com/pim/pimresponse.php/?service=category&store=1&url_key=top-wear-kurtas&page=1&count=250&sort_by=&sort_dir=desc&filter=",
+  "customApi": "https://pim.wforwoman.com/pim/pimresponse.php/?service=category&store=1&url_key=$category$&page=1&count=250&sort_by=&sort_dir=desc&filter=",
+  "paginationValue": 12
 }

@@ -19,9 +19,6 @@ const Div = styled.div`
     letter-spacing: 3px;
   }
 
-  .h2 {
-    // line-height: 2;
-  }
   .title-box {
     display: flex;
     flex-direction: column;
@@ -40,7 +37,6 @@ const Div = styled.div`
 
 function Land() {
   const navigate = useNavigate();
-  const [val, setVal] = useState(0);
 
   return (
     <div className="wrapper">

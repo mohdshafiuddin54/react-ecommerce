@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import styled from "styled-components";
-import Context from "../context";
+import Context from "../contexts/context";
 
 const Div = styled.div`
   .single-size {
@@ -25,8 +25,8 @@ function SingleBox({ size }) {
     </Div>
   );
 }
-function SizesBox({ currentSize, setCurrentSize }) {
-  const { activeProduct } = useContext(Context);
+function SizesBox({ currentSize, setCurrentSize, activeProduct }) {
+  // const { activeProduct } = useContext(Context);
   const sizes = activeProduct?.size.split(",").map((item) => item.slice(1, -1));
   useEffect(() => {
     if (!currentSize) setCurrentSize(sizes[0]);
@@ -40,7 +40,7 @@ function SizesBox({ currentSize, setCurrentSize }) {
       </Typography>
       <Box className="sizes-box">
         {sizes.map((item) => (
-          <SingleBox size={item} />
+          <SingleBox key={item} size={item} />
         ))}
       </Box>
     </Div>

@@ -1,20 +1,21 @@
 import React, { useState, useContext, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import styled from "styled-components";
 import { TableCell, TableContainer, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import SizesBox from "./sizesBox";
-import Context from "../context";
-import Paper from "@mui/material/Paper";
+import SizesBox from "../components/sizesBox";
+import Context from "../contexts/context";
 import Table from "@mui/material/Table";
 import TableRow from "@mui/material/TableRow";
 import TableBody from "@mui/material/TableBody";
 import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import { ExpandMore } from "@mui/icons-material";
-import Card from "./Card";
+import Card from "../components/Card";
 import { Button } from "@mui/material";
-import Counter from "./Counter";
+import Counter from "../components/Counter";
+import config from "../config.json";
+import fetchData from "../util/fetchData";
 
 const Div = styled.div`
   background: #edf2ff;
@@ -79,24 +80,28 @@ const Div = styled.div`
   }
 `;
 function Detail() {
-  const { findAndSetActiveProduct, activeProduct, cart, setCart } =
-    useContext(Context);
-  const params = useParams();
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (!activeProduct) findAndSetActiveProduct(params.id);
-  });
+  const { cart, setCart } = useContext(Context);
+  const [searchParams] = useSearchParams();
+  const [activeProduct, setActiveProduct] = useState(null);
   const [currentSize, setCurrentSize] = useState(null);
-  if (activeProduct) {
-    console.log(activeProduct);
-    console.log(Object.keys(activeProduct));
-  }
+  const [quantity, setQuantity] = useState(1);
+  const navigate = useNavigate();
+  const category = searchParams.get("category") || "top-wear-kurtas";
+  const id = searchParams.get("id");
+
+  useEffect(() => {
+    (async () => {
+      let tempData = await fetchData(category);
+      setActiveProduct(tempData.find((item) => item.id_product == id));
+    })();
+  }, [searchParams]);
+
   const addToCart = () => {
     if (!cart.find((item) => item.id_product == activeProduct.id_product)) {
       setCart((val) => [...val, { ...activeProduct, ["quantity"]: quantity }]);
     }
   };
-  const [quantity, setQuantity] = useState(1);
+
   let extraDetails = [
     "length",
     "material",
@@ -114,16 +119,13 @@ function Detail() {
           <Grid container spacing={5}>
             <Grid item md={4}>
               <Box className="box">
-                <img
-                  // src="https://wforwoman.gumlet.io/product/21JUF11296-910243/300/21JUF11296-910243.jpg"
-                  src={activeProduct.image}
-                  alt=""
-                />
+                <img src={activeProduct.image} alt="" />
               </Box>
             </Grid>
             <Grid item md={8} className="detail-box">
               <Typography variant="h2" element="div">
-                Light Blue Hand Block Print Flared Kurta
+                {/* Light Blue Hand Block Print Flared Kurta */}
+                {activeProduct.name}
               </Typography>
               <Box className="price-box">
                 <Box className="actual-price-box">
@@ -162,6 +164,7 @@ function Detail() {
               <SizesBox
                 currentSize={currentSize}
                 setCurrentSize={setCurrentSize}
+                activeProduct={activeProduct}
               />
               <Box className="buy-buttons-box">
                 <Counter value={quantity} setQuantity={setQuantity} />
@@ -172,7 +175,6 @@ function Detail() {
                   }}
                   variant="contained"
                   size="medium"
-                  variant="contained"
                 >
                   Buy Now
                 </Button>
@@ -254,7 +256,11 @@ function Detail() {
             >
               {activeProduct
                 ? Object.keys(activeProduct.variation).map((item) => (
-                    <Card product={activeProduct.variation[item]} />
+                    <Card
+                      category={category}
+                      key={item}
+                      product={activeProduct.variation[item]}
+                    />
                   ))
                 : null}
             </Box>

@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CartProduct from "../components/CartProduct";
 import styled from "styled-components";
-import Context from "../context";
+import Context from "../contexts/context";
 import {
   Button,
   Alert,
@@ -75,6 +75,7 @@ function CartPage() {
   const navigate = useNavigate();
   const { cart, setCart } = useContext(Context);
   const [placeOrder, setPlaceOrder] = useState(false);
+
   function calculateAndReturnSum(setState) {
     let sum = 0;
     cart.forEach(
@@ -84,6 +85,7 @@ function CartPage() {
   }
   const [snack, setSnack] = useState(false);
   let i = 0;
+
   return (
     <>
       {cart.length > 0 ? (
@@ -116,7 +118,7 @@ function CartPage() {
             </Button>
             <Button
               className="cart-button checkout"
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/shop")}
             >
               Shop Further
             </Button>

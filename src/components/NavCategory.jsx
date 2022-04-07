@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, useContext } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
-import Context from "../context";
+import Context from "../contexts/context";
 
 const Div = styled.div`
   background-color: #ff6b6b;
@@ -94,8 +94,7 @@ function NavCategory({ title, item }) {
             <button
               key={i++}
               onClick={() => {
-                fetchData(item[elem]);
-                navigate("/shop");
+                navigate(`/shop?category=${item[elem]}`);
               }}
             >
               {elem}

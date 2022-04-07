@@ -49,10 +49,8 @@ const Div = styled.div`
 `;
 
 function Carousel() {
-  let interval;
   const [show, setShow] = useState(1);
   const [interv, setInterv] = useState(null);
-  console.log({ show, interv });
   const kickoff = () => {
     setInterv(
       setInterval(() => setShow((val) => (val < 4 ? val + 1 : 1)), 3000)
@@ -68,7 +66,13 @@ function Carousel() {
     setShow((val) => (val < 4 ? val + 1 : 1));
     kickoff();
   };
-  useEffect(kickoff, []);
+  useEffect(() => {
+    kickoff();
+    return () => {
+      clearInterval(interv);
+      setInterv(null);
+    };
+  }, []);
 
   return (
     <>

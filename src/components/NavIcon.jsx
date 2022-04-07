@@ -3,7 +3,7 @@ import { IconButton } from "@mui/material";
 import { Badge } from "@mui/material";
 import { Notifications, ShoppingCart } from "@mui/icons-material";
 import styled from "styled-components";
-import Context from "../context";
+import Context from "../contexts/context";
 import { AccountCircle } from "@mui/icons-material";
 
 const SdBadge = styled(Badge)`

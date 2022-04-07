@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Pagination } from "@mui/material";
 import styled from "styled-components";
-import Context from "../context";
+import config from "../config.json";
 
 const SdPagination = styled(Pagination)`
   margin: 4.8rem 0;
@@ -31,8 +31,8 @@ const SdPagination = styled(Pagination)`
   }
 `;
 
-function Paginations() {
-  const { pageNum, setPageNum, data } = useContext(Context);
+function Paginations(props) {
+  const { pageNum, setPageNum, data } = props;
   return (
     <div
       className="pagination-wrapper"
@@ -41,7 +41,7 @@ function Paginations() {
       <SdPagination
         variant="outlined"
         shape="rounded"
-        count={Math.floor(data.length / 12)}
+        count={Math.floor(data.length / process.env.REACT_APP_PAGINATION_VALUE)}
         page={pageNum * 1}
         size="large"
         onChange={(e) => setPageNum(e.target.innerText)}

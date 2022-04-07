@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import Context from "../context";
+import Context from "../contexts/context";
 import styled from "styled-components";
 import Counter from "./Counter";
 import Button from "@mui/material/Button";
